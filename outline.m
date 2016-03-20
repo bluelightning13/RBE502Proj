@@ -3,7 +3,6 @@ function main()
 
 
 
-
 	% function to display
 	function [x] = display()
 
@@ -39,5 +38,11 @@ function main()
 
 	end
 
+	% wind / disturbance function
+	% same F vector with varyine magnitude
+	% NOT MOMENT INDUCING
+	function randomF = disturbance()
+	
+	end
 
 end
