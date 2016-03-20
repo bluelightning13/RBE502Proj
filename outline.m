@@ -41,19 +41,19 @@ function main()
 
 	% control function using PD - for trajectories when the QC is in motion
 	% not implementing I because of oscillations caused by steady state error
-	function mControl = pd_controller()
+	function mControl = pd_controller() %Meagan
 
 	end
 
 	% control function using PID - for when the QC is stationary(hovering)
-	function sControl = pid_controller()
+	function sControl = pid_controller() %John
 
 	end
 	
 	% wind / disturbance function
 	% same F vector with varyine magnitude
 	% NOT MOMENT INDUCING
-	function randomF = disturbance()
+	function randomF = disturbance() %Don
 	
 	end
 	
