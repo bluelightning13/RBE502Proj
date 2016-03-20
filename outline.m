@@ -20,36 +20,43 @@ function main()
 		th = R * thrust(cInput, k);
 		accel = grav + 1/m *th + fd;
 	end
-
-
-	% function for angular acceleration
-	function angaccel = ang_acceleration()
-
-	end
-
-
+	
 	% function to calculate thrust
 	function thf = thrust(cInput, k)
 		thf = [0; 0; k * sum(cInput)];
 	end
 
+	
+	% function for angular acceleration
+	function angaccel = ang_acceleration(cInput, omega, I, L, b, k)
+		tau = torques(cInput,L,b,k);
+		angaccel = inv(I) * (tau - cross(omega, I*omega));
+	end
 
 	% compute the torques
 	function tau = torques()
-
+		tau = [L*k*(cInput(1) - cInput(3))  L*k*(cInput(2) - cInput(4))  b*(cInput(1) - cInput(2) + cInput(3) - cInput(4)) ];
 	end
 
 
-	% control function using PD
-	function control = pd_controller()
+	% control function using PD - for trajectories when the QC is in motion
+	% not implementing I because of oscillations caused by steady state error
+	function mControl = pd_controller()
 
 	end
 
+	% control function using PID - for when the QC is stationary(hovering)
+	function sControl = pid_controller()
+
+	end
+	
 	% wind / disturbance function
 	% same F vector with varyine magnitude
 	% NOT MOMENT INDUCING
 	function randomF = disturbance()
 	
 	end
+	
+	
 
 end
