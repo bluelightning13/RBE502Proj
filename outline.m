@@ -39,10 +39,29 @@ function main()
 	end
 
 
-	% control function using PD - for trajectories when the QC is in motion
-	% not implementing I because of oscillations caused by steady state error
-	function mControl = pd_controller() %Meagan
+	% control function using cubic polynominals
+	% input is a set of points (should be and next points) and actual point
+	% mcontrol is cubic 
+	function mControl = controller(points, actual) %Meagan
+		trajectory = cscvn(points)
+		t = 0:.1:1;
+		% Thrust = 
+		% PID = 
+		traj = Thrust + PID;
+		drawf(traj, actual);
+	end
 
+	%drawfunction
+	function drawf(trajectory, actual)
+		hold on;
+		%for previous path store dots and plot 
+		plot3D(line);
+		plot3D(line);
+		plot3D(circle);
+		plot3D(circle);
+		plot3D(circle);
+		plot3D(circle);
+		drawnow;
 	end
 
 	% control function using PID - for when the QC is stationary(hovering)
