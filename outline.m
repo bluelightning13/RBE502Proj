@@ -45,10 +45,15 @@ function main()
 	function mControl = controller(points, actual) %Meagan
 		trajectory = cscvn(points)
 		t = 0:.1:1;
-		% Thrust = 
-		% PID = 
-		traj = Thrust + PID;
-		drawf(traj, actual);
+		% Thrust vector = mg + ma (a is from acceleration of initial trajectory)
+		% PID = force vector from error from actual trajectory
+		newThrust = Thrust + PID;
+        %newOrientation is derived from newThrust vector
+        
+        %set motor speeds to drive toward newOrientation, based on
+        %orientation and angular velocities
+        
+		drawf(traj, actual); %draw where we are now and where we should be
 	end
 
 	%drawfunction
