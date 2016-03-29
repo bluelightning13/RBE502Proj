@@ -47,11 +47,39 @@ function main()
 		t = 0:.1:1;
 		% Thrust vector = mg + ma (a is from acceleration of initial trajectory)
 		% PID = force vector from error from actual trajectory
-		newThrust = Thrust + PID;
-        %newOrientation is derived from newThrust vector
-        
-        %set motor speeds to drive toward newOrientation, based on
-        %orientation and angular velocities
+		trajectory = cscvn(points)
+		t = 0:.1:1;
+		Kxp = 1.85;
+		Kxd = .75;
+		Kxdd = 1;
+		Kyp = 8.55;
+		Kyd = .75;
+		Kydd = 1;
+		Kzp = 1.85;
+		Kzd = .75;
+		Kzdd = 1;
+		Kphi_p = 3;
+		Ktheta_p = 3;
+		Kpsi_p = 3;
+		Kphi_d = .75;
+		Ktheta_d = .75;
+		Kpsi_d = .75;
+		I_x = .0045;
+		I_y = .0045;
+		I_z = .0088;
+		
+		dx = Kxp*(desired(1) - actual(1)) + Kxd(desired(4) - actual(4)) + Kxdd(desired(7) - actual(7));
+		dy = Kyp*(desired(2) - actual(2)) + Kyd(desired(5) - actual(5)) + Kydd(desired(8) - actual(8));
+		dz = Kzp*(desired(3) - actual(3)) + Kzd(desired(6) - actual(6)) + Kzdd(desired(9) - actual(9));
+		heading = 0;
+		
+		phi = arcsin((dx * sin(psi) - dy * cos(psi)) / (dx^2 + dy^2 + (dz + g)^2));
+		theta = arctan((dx * cos(psi) - dy * sin(psi)) / (dz + g));
+		thrust = m * (dx * (sin(theta) *cos(psi) * cos(phi) + sin(psi) * sin(phi)) + dy*(sin(theta)*sin(psi) * cos(phi) - cos(psi) * sin(phi)) + (dz + g)*cos(theta)*cos(phi));
+		
+		t_phi = (Kphi_p * (phi - actual(10)) + Kphi_d(phi_d - actual(10))) * I_x;
+		
+		
         
 		drawf(traj, actual); %draw where we are now and where we should be
 	end
