@@ -43,12 +43,20 @@ function main()
 	% input is a set of points (should be and next points) and actual point
 	% mcontrol is cubic 
 	function mControl = controller(points, actual) %Meagan
-		trajectory = cscvn(points)
-		t = 0:.1:1;
-		% Thrust vector = mg + ma (a is from acceleration of initial trajectory)
-		% PID = force vector from error from actual trajectory
-		trajectory = cscvn(points)
-		t = 0:.1:1;
+	%trajectory = cscvn(points)
+		%t = 0:.1:1;
+		if ~exist(phi_d)
+			phi_d = 0;
+			phi = 0;
+		else
+		if ~exist(theta_d)
+			theta_d = 0;
+			theta = 0;
+		else
+		if ~exist(psi_d)
+			psi_d = 0; %heading
+			psi = 0;
+		else
 		Kxp = 1.85;
 		Kxd = .75;
 		Kxdd = 1;
@@ -71,13 +79,20 @@ function main()
 		dx = Kxp*(desired(1) - actual(1)) + Kxd(desired(4) - actual(4)) + Kxdd(desired(7) - actual(7));
 		dy = Kyp*(desired(2) - actual(2)) + Kyd(desired(5) - actual(5)) + Kydd(desired(8) - actual(8));
 		dz = Kzp*(desired(3) - actual(3)) + Kzd(desired(6) - actual(6)) + Kzdd(desired(9) - actual(9));
-		heading = 0;
+		
 		
 		phi = arcsin((dx * sin(psi) - dy * cos(psi)) / (dx^2 + dy^2 + (dz + g)^2));
 		theta = arctan((dx * cos(psi) - dy * sin(psi)) / (dz + g));
 		thrust = m * (dx * (sin(theta) *cos(psi) * cos(phi) + sin(psi) * sin(phi)) + dy*(sin(theta)*sin(psi) * cos(phi) - cos(psi) * sin(phi)) + (dz + g)*cos(theta)*cos(phi));
 		
 		t_phi = (Kphi_p * (phi - actual(10)) + Kphi_d(phi_d - actual(10))) * I_x;
+		t_theta = (Ktheta_p * (theta - actual(10)) + Ktheta_d(theta_d - actual(10))) * I_y;
+		t_psi = (Kpsi_p * (psi - actual(10)) + Kpsi_d(psi_d - actual(10))) * I_z;
+		
+		
+		phi_d = phi;
+		theta_d = theta;
+		psi_d = psi;
 		
 		
         
