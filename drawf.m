@@ -1,24 +1,36 @@
 %draw function takes in the next position, the x and y rotation
-	%and the previous position. 
-	function drawf(next, yrot, xrot, prev)
+%and the previous position. 
+function drawf(next, yr, xr, prev)
 		
-		hold on;
-		%for previous path store dots and plot 
-		plot(prev, 'LineStyle', '-', 'Color', 'r')
-		
-		%the next x and y values of the quadcoptor
-		cX = next(1);
-		cY = next(2);
-		
-		%determines the verticle height of each blade
-		cZ1u = blade*cos(xrot);
-		cZ1l = -blade*cos(xrot);
-		cZ2u = blade*sin(yrot);
-		cZ2l = -blade*sin(yrot);
-		%plots the line
-		plot3([cX cX+blade], [cY cY+blade], [cZ cZ2u], 'Color', 'b');
-		plot3([cX cX+blade], [cY cY-blade], [cZ cZ2u], 'Color', 'b');
-		plot3([cX cX-blade], [cY cY+blade], [cZ cZ2l], 'Color', 'b');
-		plot3([cX cX-blade], [cY cY-blade], [cZ cZ2l], 'Color', 'b');
-		drawnow;
-	end
+	blade = 5;
+	yrot = yr*(180/pi);
+        xrot = xr*(180/pi);
+	%the next x and y values of the quadcoptor
+	cX = next(1);
+	cY = next(2);
+	cZ = next(3);
+        
+        invY = mod(yrot + 180,360);
+        invX = mod(yrot + 180,360);
+	%determines the verticle height of each blade
+	cZ1u = (blade*cosd(xrot)+cZ);
+	cZ1l = (blade*cosd(invX))+cZ;
+	cZ2u = (blade*sind(yrot))+cZ;
+	cZ2l = (blade*sind(invY))+cZ;
+	%plots the line
+        figure(1);
+        clf;
+        hold on;
+        grid on;
+        al = -159;
+        ez = 29;
+        view(al,ez);
+        axis([-20 20 -20 20 -20 20]);
+	%for previous path store dots and plot 
+	plot3(prev(:,1),prev(:,2),prev(:,3), 'LineStyle', '-', 'Color', 'r')
+        plot3([cX cX+blade], [cY cY+blade], [cZ cZ2u], 'Color', 'b');
+	plot3([cX cX+blade], [cY cY-blade], [cZ cZ2u], 'Color', 'b');
+	plot3([cX cX-blade], [cY cY+blade], [cZ cZ2l], 'Color', 'b');
+	plot3([cX cX-blade], [cY cY-blade], [cZ cZ2l], 'Color', 'b');
+	drawnow;
+end
