@@ -87,8 +87,8 @@
             actual(5) = actual(5) + actual(8)*delta_t;
             actual(6) = actual(6) + actual(9)*delta_t;
             actual(7) = (thrust / m)*(cos(psi)*sin(theta)*cos(phi)+sin(psi)*sin(phi));
-            actual(8) = (thrust / m)*;
-            actual(9) = (thrust / m)*;
+            actual(8) = (thrust / m)*(sin(psi)*sin(theta)*cos(phi)-cos(psi)*sin(phi));
+            actual(9) = (thrust / m)*(cos(theta)*cos(phi));
             actual(10) = actual(10) + actual(13)*delta_t + (1/2)*actual(16)*(delta_t^2);
             actual(11) = actual(11) + actual(14)*delta_t + (1/2)*actual(17)*(delta_t^2);
             actual(12) = actual(12) + actual(15)*delta_t + (1/2)*actual(18)*(delta_t^2);
