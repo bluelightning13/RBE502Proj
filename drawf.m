@@ -1,5 +1,7 @@
-%draw function takes in the next position, the x and y rotation
-%and the previous position. 
+%M. Hiatt
+%This function takes in the position that will be plotted next (next)
+%the x and y rotations (yr, xr) and an array of previous points.
+%Both the next and prev arrays are 3*n for x, y and z coordinates.
 function drawf(next, yr, xr, prev)
 		
 	blade = 5;
