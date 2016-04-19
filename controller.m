@@ -38,7 +38,7 @@ I_z = .0088;
 k = 2.980*10^(-6);
 l = 0.225;
 b = 1.140*10^(-7);
-delta_t = .0001; 
+delta_t = .0001; % in simulation
 	
 % PD
 dx = Kxp*(desired(1) - actual(1)) + Kxd(desired(4) - actual(4)) + Kxdd(desired(7) - actual(7));
@@ -84,7 +84,7 @@ for i = 1 : 100
     actual(16) = alpha_phi;
     actual(17) = alpha_theta;
     actual(18) = alpha_psi;
-    
+
     actual(1) = actual(1) + actual(4)*delta_t + (1/2)*actual(7)*(delta_t^2);
     actual(2) = actual(2) + actual(5)*delta_t + (1/2)*actual(8)*(delta_t^2);
     actual(3) = actual(3) + actual(6)*delta_t + (1/2)*actual(9)*(delta_t^2);

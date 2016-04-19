@@ -1,9 +1,10 @@
 % main function where everything runs
 function outline()
     %main function 
-    points=[0 1 1; 2 3 2; 1 5 8];
+    points=[0 1 0; 2 3 0; 1 5 0];
     pts = spline(points(:,1),points(:,2),points(:,3));
     %pts2 = interp1();
+    figure('Visible','Off');
     fnplt(cscvn(points))
     hold on;
     %plot(points(1,:),points(2,:),'o'), hold off
@@ -27,11 +28,8 @@ function outline()
     %trajectory - cubic poly to/from two points
     
     %for every point
-        %call controller
-        %call disturbance
-    for i = 0:102
-       plot(X(i),Y(i),Z(i); 
-    end
+    %call controller
+    %call disturbance
     
 	h = findobj(gca,'Type','line');
     x=get(h,'Xdata');
@@ -40,9 +38,13 @@ function outline()
     X = x';
     Y = y';
     Z = z';
+    figure('Visible','On')
     plot3(X(:,1),Y(:,1),Z(:,1));
 	
 	
+    
+    % initialize quadcopter state variables
+    actual = zeros(1,18);
 	
-
+    
 end
