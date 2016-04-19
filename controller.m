@@ -56,9 +56,9 @@ alpha_theta = (Ktheta_p * (theta - actual(10)) + Ktheta_d(theta_d - actual(10)))
 alpha_psi = (Kpsi_p * (psi - actual(10)) + Kpsi_d(psi_d - actual(10)));
 
 % desired torque on body
-	t_phi = alpha_phi * I_x;
-	t_theta = alpha_theta * I_y;
-	t_psi = alpha_psi * I_z;      
+t_phi = alpha_phi * I_x;
+t_theta = alpha_theta * I_y;
+t_psi = alpha_psi * I_z;      
 
 % new motor speeds to produce desired torques and thrust
 % this assumes instantaneous change to desired motor speeds - will
@@ -77,24 +77,28 @@ psi_d = psi;
 % psid phidd thetadd psidd]
 
 for i = 1 : 100
+    % update accelerations
+    actual(7) = (thrust / m)*(cos(actual(12))*sin(actual(11))*cos(actual(10))+sin(actual(12))*sin(actual(10)));
+    actual(8) = (thrust / m)*(sin(actual(12))*sin(actual(11))*cos(actual(10))-cos(actual(12))*sin(actual(10)));
+    actual(9) = (thrust / m)*(cos(actual(11))*cos(actual(10)));
+    actual(16) = alpha_phi;
+    actual(17) = alpha_theta;
+    actual(18) = alpha_psi;
+    
     actual(1) = actual(1) + actual(4)*delta_t + (1/2)*actual(7)*(delta_t^2);
     actual(2) = actual(2) + actual(5)*delta_t + (1/2)*actual(8)*(delta_t^2);
     actual(3) = actual(3) + actual(6)*delta_t + (1/2)*actual(9)*(delta_t^2);
     actual(4) = actual(4) + actual(7)*delta_t;
     actual(5) = actual(5) + actual(8)*delta_t;
     actual(6) = actual(6) + actual(9)*delta_t;
-    actual(7) = (thrust / m)*(cos(psi)*sin(theta)*cos(phi)+sin(psi)*sin(phi));
-    actual(8) = (thrust / m)*(sin(psi)*sin(theta)*cos(phi)-cos(psi)*sin(phi));
-    actual(9) = (thrust / m)*(cos(theta)*cos(phi));
+
     actual(10) = actual(10) + actual(13)*delta_t + (1/2)*actual(16)*(delta_t^2);
     actual(11) = actual(11) + actual(14)*delta_t + (1/2)*actual(17)*(delta_t^2);
     actual(12) = actual(12) + actual(15)*delta_t + (1/2)*actual(18)*(delta_t^2);
     actual(13) = actual(13) + actual(16)*delta_t;
     actual(14) = actual(14) + actual(17)*delta_t;
     actual(15) = actual(15) + actual(18)*delta_t;
-    actual(16) = alpha_phi;
-    actual(17) = alpha_theta;
-    actual(18) = alpha_;
+
 end
 
 
