@@ -98,7 +98,7 @@ for i = 1 : 100
 end
 
 
-	drawf(traj, xrot, yrot, prevPts); %draw where we are now and where we should be
+drawf(traj, xrot, yrot, prevPts); %draw where we are now and where we should be
 prevPts(i) = actual;
 
 %implement disturbance
@@ -109,4 +109,4 @@ prevPts(i) = actual;
 
 
 end
->>>>>>> origin/master
+
