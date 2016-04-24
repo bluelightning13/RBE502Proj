@@ -2,7 +2,7 @@
 % control function using cubic polynominals
 % input is a set of points (should be and next points) and actual point
 % mcontrol is cubic 
-function [updated_actual,updated_phi_d,updated_theta_d,updated_psi_d] = pid_controller(points, actual) %Meagan
+function [updated_actual,updated_phi_d,updated_theta_d,updated_psi_d] = pid_controller(desired,actual,phi_d,theta_d,psi_d)
 %trajectory = cscvn(points)
 %t = 0:.1:1;
 if ~exist(phi_d)
