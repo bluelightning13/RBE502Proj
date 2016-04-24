@@ -9,8 +9,8 @@ function drawf(next, yr, xr, prev)
         xrot = xr*(180/pi);
 	%the next x and y values of the quadcoptor
 	cX = next(1);
-	cY = next(2);
-	cZ = next(3);
+	cZ = next(2);
+	cY = next(3);
         
         invY = mod(yrot + 180,360);
         invX = mod(yrot + 180,360);
@@ -24,13 +24,13 @@ function drawf(next, yr, xr, prev)
         clf;
         hold on;
         grid on;
-        al = -159;
-        ez = 29;
+        al = -90;
+        ez = 90;
         view(al,ez);
         axis([-20 20 -20 20 -20 20]);
 	%for previous path store dots and plot 
 	plot3(prev(:,1),prev(:,2),prev(:,3), 'LineStyle', '-', 'Color', 'r')
-        plot3([cX cX+blade], [cY cY+blade], [cZ cZ2u], 'Color', 'b');
+    plot3([cX cX+blade], [cY cY+blade], [cZ cZ2u], 'Color', 'b');
 	plot3([cX cX+blade], [cY cY-blade], [cZ cZ2u], 'Color', 'b');
 	plot3([cX cX-blade], [cY cY+blade], [cZ cZ2l], 'Color', 'b');
 	plot3([cX cX-blade], [cY cY-blade], [cZ cZ2l], 'Color', 'b');
