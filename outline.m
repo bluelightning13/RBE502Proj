@@ -1,23 +1,12 @@
 % main function where everything runs
 function outline()
     %main function 
-    points=[0 1 1; 2 3 2; 1 5 8];
+    points=[0 5 0 ; 0 2 0 ; 0 1 0 ];
+    cubicPoly = (cscvn(points))
+    fnplt(cubicPoly)
+    coAos = cubicPoly.coefs  %this is a 4*6 array (with 3pts) with the coeffs and offsets
+    breaks = cubicPoly.breaks %this is the breaks in the graphs (array of 3)
     
-    %makes cubic pts
-    fnplt(cscvn(points))
-    hold on;
-
     
-	h = findobj(gca,'Type','line');
-    x=get(h,'Xdata');
-    y=get(h,'Ydata');
-    z=get(h,'Zdata');
-    X = x';
-    Y = y';
-    Z = z';
-    plot3(X(:,1),Y(:,1),Z(:,1));
-    % initialize quadcopter state variables
-    actual = zeros(1,18);
-	
     
 end
