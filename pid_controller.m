@@ -2,7 +2,7 @@
 % control function using cubic polynominals
 % input is a set of points (should be and next points) and actual point
 % mcontrol is cubic 
-function sControl = pid_controller(points, actual) %Meagan
+function [updated_actual,updated_phi_d,updated_theta_d,updated_psi_d] = pid_controller(points, actual) %Meagan
 %trajectory = cscvn(points)
 %t = 0:.1:1;
 if ~exist(phi_d)
@@ -17,6 +17,10 @@ elseif ~exist(psi_d)
     psi_d = 0; %heading
     psi = 0;
 end
+
+% Constants:
+m = 0.468; %set mass to 0.468 kg
+g = 9.8; %gravitational constant
 
 % Proportional and derivative gain coefficients:
 Kxp = 1.85;
@@ -51,7 +55,7 @@ l = 0.225;
 b = 1.140*10^(-7);
 delta_t = .0001; % in simulation
 	
-% PD
+% PID
 % actual is [x y z xd yd zd xdd ydd zdd phi theta psi phid thetad
 % psid phidd thetadd psidd]
 
@@ -60,8 +64,8 @@ dy = Kyp*(points(2) - actual(2)) + Kyi*(points(2)-actual(2))*delta_t + Kyd*(poin
 dz = Kzp*(points(3) - actual(3)) + Kzi*(points(3)-actual(3))*delta_t + Kzd*(points(6) - actual(6)) + Kzdd*(points(9) - actual(9));
 
 % new desired orientation and thrust
-phi = arcsin((dx * sin(psi) - dy * cos(psi)) / (dx^2 + dy^2 + (dz + g)^2));
-theta = arctan((dx * cos(psi) - dy * sin(psi)) / (dz + g));
+phi = asin((dx * sin(psi) - dy * cos(psi)) / (dx^2 + dy^2 + (dz + g)^2));
+theta = atan((dx * cos(psi) - dy * sin(psi)) / (dz + g));
 thrust = m * (dx * (sin(theta) *cos(psi) * cos(phi) + sin(psi) * sin(phi)) + dy*(sin(theta)*sin(psi) * cos(phi) - cos(psi) * sin(phi)) + (dz + g)*cos(theta)*cos(phi));
 	
 % accelerations on orientation
@@ -116,13 +120,16 @@ for i = 1 : 100
 end
 
 
-drawf(traj, xrot, yrot, prevPts); %draw where we are now and where we should be
-prevPts(i) = actual;
+%drawf(traj, xrot, yrot, prevPts); %draw where we are now and where we should be
+%prevPts(i) = actual;
 
 %implement disturbance
-[X Y Z] = disturbance();
+%[X Y Z] = disturbance();
 
-
+updated_actual = actual;
+updated_phi_d = (phi_d + (phi - actual(10))) / 2;
+updated_theta_d = (theta_d + (theta - actual(11))) / 2;
+updated_psi_d = (psi_d + (psi - actual(12))) / 2;
 
 
 
