@@ -6,23 +6,22 @@ function [updated_actual,o_ed,p_ed] = controller(desired,actual,o_ed,p_ed)
 %trajectory = cscvn(points)
 %t = 0:.1:1;
 
-
 psi = 0;
 
 g = 9.8;
-Kxp = 8;
+Kxp = 1.85;
 Kxd = .75;
 %Kxdd = 1;
-Kyp = 8;
-Kyd = .75;
+Kyp = 1.85;
+Kyd = 1;
 %Kydd = 1;
 Kzp = 8;
 Kzd = .75;
 %Kzdd = 1;
-Kphi_p = 1.85;
+Kphi_p = 1.85*50;
 Ktheta_p = 1.85;
 Kpsi_p = 1.85;
-Kphi_d = .75;
+Kphi_d = .75*50;
 Ktheta_d = .75;
 Kpsi_d = .75;
 I_x = .0045;
@@ -35,17 +34,18 @@ b = 1.140*10^(-7);
 delta_t = .0001; % 10000 Hz simulation time
 	
 % PD
-dx = Kxp*(desired(1) - actual(1)) + Kzd * (p_ed(1)); %+ Kxd*(desired(4) - actual(4)) + Kxdd*(desired(7) - actual(7));
-dy = Kyp*(desired(2) - actual(2)) + Kzd * (p_ed(2)); %+ Kyd*(desired(5) - actual(5)) + Kydd*(desired(8) - actual(8));
-dz = Kzp*(desired(3) - actual(3)) + Kzd * (p_ed(3)) %Kzd*(desired(6) - actual(6)) + Kzdd*(desired(9) - actual(9))
+dx = Kxp*(desired(1) - actual(1)) + Kxd * (p_ed(1)); %+ Kxd*(desired(4) - actual(4)) + Kxdd*(desired(7) - actual(7));
+dy = Kyp*(desired(2) - actual(2)) + Kyd * (p_ed(2)) %+ Kyd*(desired(5) - actual(5)) + Kydd*(desired(8) - actual(8));
+dz = Kzp*(desired(3) - actual(3)) + Kzd * (p_ed(3)); %Kzd*(desired(6) - actual(6)) + Kzdd*(desired(9) - actual(9))
 
 % new desired orientation and thrust
-phi = asin((dx * sin(psi) - dy * cos(psi)) / (dx^2 + dy^2 + (dz + g)^2));
+phi = asin((dx * sin(psi) - dy * cos(psi)) / (dx^2 + dy^2 + (dz + g)^2))
+actual(10)
 theta = atan((dx * cos(psi) - dy * sin(psi)) / (dz + g));
 thrust = m * (dx * (sin(theta) *cos(psi) * cos(phi) + sin(psi) * sin(phi)) + dy*(sin(theta)*sin(psi) * cos(phi) - cos(psi) * sin(phi)) + (dz + g)*cos(theta)*cos(phi))
 	
 % accelerations on orientation
-alpha_phi = (Kphi_p * (phi - actual(10)) + Kphi_d * (o_ed(1)));
+alpha_phi = (Kphi_p * (phi - actual(10)) + Kphi_d * (o_ed(1)))
 alpha_theta = (Ktheta_p * (theta - actual(11)) + Ktheta_d * (o_ed(2)));
 alpha_psi = (Kpsi_p * (psi - actual(12)) + Kpsi_d * (o_ed(3)));
 

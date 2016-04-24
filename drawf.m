@@ -25,7 +25,7 @@ function drawf(next, yr, xr, prev)
         hold on;
         grid on;
         al = -90;
-        ez = 90;
+        ez = 0;
         view(al,ez);
         axis([-20 20 -20 20 -20 20]);
 	%for previous path store dots and plot 

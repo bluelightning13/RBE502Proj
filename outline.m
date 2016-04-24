@@ -25,7 +25,7 @@ function outline()
     p_ed = [0 0 0];
     
     for i = 0 : delta_t : 5 % 5 second trajectory
-        desired(3) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
+        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
         %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
@@ -35,26 +35,28 @@ function outline()
         prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
         
         % update orientation error derivatives
-        o_ed = o_ed * delta_t;
-        p_ed = p_ed * delta_t;
+        o_ed = o_ed * delta_t
+        p_ed = p_ed * delta_t
         
         i
         
         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
         %pause
     end
-    
-    %for i = 0 : delta_t : 10 % 10 second trajectory to stabilize
-    %    [actual,phi_d,theta_d,psi_d] = controller(desired,actual,phi_d,theta_d,psi_d);
-    %    prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
-    %    
-    %    % update orientation error derivatives
-    %    phi_d = phi_d * delta_t;
-    %    theta_d = theta_d * delta_t;
-    %    psi_d = psi_d * delta_t;
-    %    i
-    %    drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
-    %end
+    pause
+    for i = 0 : delta_t : 15 % 10 second trajectory to stabilize
+        [actual,o_ed,p_ed] = controller(desired,actual,o_ed,p_ed);
+        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
+        
+        % update orientation error derivatives
+        o_ed = o_ed * delta_t
+        p_ed = p_ed * delta_t
+        
+        i
+        
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        %pause
+    end
     
     prevPts
     
