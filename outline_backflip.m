@@ -8,7 +8,7 @@
     breaks = cubicPoly.breaks %this is the breaks in the graphs (array of 3)
     
     tf = 5;
-    position_d_coeffs = transpose(computeCubicParameters(0,tf,0,0,5,0)) % 5 units in 10 seconds
+    position_d_coeffs = transpose(computeCubicParameters(0,tf,0,0,5,9.8)) % 5 units in 10 seconds
     %pause
     %velocity_d_coeffs = [0 position_d_coeffs(2)*1 position_d_coeffs(3)*2 position_d_coeffs(4)*3];
     %acceleration_d_coeffs = [0 0 velocity_d_coeffs(3)*1 velocity_d_coeffs(4)*2];
@@ -34,9 +34,8 @@
     
     p_ot = [];
     
-    for i = 0 : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+    for i = 0 : delta_t : tf % 2 second trajectory
+        desired(3) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -57,11 +56,11 @@
     
     %pause
     
-    position_d_coeffs = transpose(computeCubicParameters(0,tf,5,0,0,0)) % 5 units in 10 seconds
+    desired = zeros(1,6); %desired position, velocity, acceleration at time t
+    position_d_coeffs = transpose(computeCubicParameters(0,2,0,0,2*pi,0)) % 5 units in 10 seconds
     
-    for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+    for i = delta_t : delta_t : 2 % .5 second trajectory
+        desired(5) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -80,84 +79,11 @@
         p_ot = [p_ot, transpose(desired)];
     end
     
-    position_d_coeffs = transpose(computeCubicParameters(0,tf,0,0,5,0)) % 5 units in 10 seconds
+    desired = zeros(1,6); %desired position, velocity, acceleration at time t
+    position_d_coeffs = transpose(computeCubicParameters(0,5,5,-9.8,0,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-
-        %[desired(3),desired(6),desired(9)]
-        %[actual(3),actual(6),actual(9)]
-        %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
-        %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
-        
-        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp);
-        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
-        l_do = [l_do, transpose(o_pdo)];
-        
-        i
-        
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
-        %pause
-        
-        p_ot = [p_ot, transpose(desired)];
-    end
-    
-    %pause
-    
-    position_d_coeffs = transpose(computeCubicParameters(0,tf,5,0,0,0)) % 5 units in 10 seconds
-    
-    for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-
-        %[desired(3),desired(6),desired(9)]
-        %[actual(3),actual(6),actual(9)]
-        %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
-        %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
-        
-        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp);
-        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
-        l_do = [l_do, transpose(o_pdo)];
-        
-        i
-        
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
-        %pause
-        
-        p_ot = [p_ot, transpose(desired)];
-    end
-    
-     position_d_coeffs = transpose(computeCubicParameters(0,tf,0,0,5,0)) % 5 units in 10 seconds
-    
-    for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-
-        %[desired(3),desired(6),desired(9)]
-        %[actual(3),actual(6),actual(9)]
-        %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
-        %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
-        
-        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp);
-        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
-        l_do = [l_do, transpose(o_pdo)];
-        
-        i
-        
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
-        %pause
-        
-        p_ot = [p_ot, transpose(desired)];
-    end
-    
-    %pause
-    
-    position_d_coeffs = transpose(computeCubicParameters(0,tf,5,0,0,0)) % 5 units in 10 seconds
-    
-    for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        desired(3) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -190,7 +116,7 @@
         p_ot = [p_ot, transpose(desired)];
     end
     
-   time = linspace(0,(6*tf+10),(((6*tf+10)/delta_t)+1));
+   time = linspace(0,(2*tf+2+10),(((2*tf+2+10)/delta_t)+1));
    
    figure(2)
    hold on
