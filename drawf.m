@@ -4,13 +4,13 @@
 %Both the next and prev arrays are 3*n for x, y and z coordinates.
 function drawf(next, yr, xr, prev)
 		
-	blade = 5;
+	blade = .4;  %blade length
 	yrot = yr*(180/pi);
         xrot = xr*(180/pi);
 	%the next x and y values of the quadcoptor
 	cX = next(1);
-	cZ = next(2);
-	cY = next(3);
+	cY = next(2);
+	cZ = next(3);
         
         invY = mod(yrot + 180,360);
         invX = mod(yrot + 180,360);
