@@ -24,6 +24,8 @@
     o_pe = [0 0 0];
     % initial previous desired orientation
     o_pdo = [0 0 0];
+    %list of desired orientations
+    l_do = [];
     
     % initial previous position error
     p_pe = [0 0 0];
@@ -33,7 +35,9 @@
     p_ot = [];
     
     for i = 0 : delta_t : tf % 5 second trajectory
+        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
         desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
         %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
@@ -53,7 +57,7 @@
     %pause
     
     % converge to final position
-    for i = 0 : delta_t : 5 % 10 second trajectory to stabilize
+    for i = 0 : delta_t : 10 % 10 second trajectory to stabilize
         [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp);
         prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
    
@@ -66,9 +70,19 @@
         p_ot = [p_ot, transpose(desired)];
     end
     
-   time = linspace(0,(tf+5),(((tf+5)/delta_t)+2));
+   time = linspace(0,(tf+10),(((tf+10)/delta_t)+2));
    
-   figure()
+   figure(2)
+   hold on
+   plot(time,p_ot(1,:),'b')
+   plot(time,prevPts(1,:),'r')
+   title('X Actual vs. Desired Position')
+   legend('Desired Pos.','Actual Pos.')
+   xlabel('Time (s)')
+   ylabel('X Position (m)')
+   hold off
+   
+   figure(3)
    hold on
    plot(time,p_ot(2,:),'b')
    plot(time,prevPts(2,:),'r')
@@ -76,6 +90,16 @@
    legend('Desired Pos.','Actual Pos.')
    xlabel('Time (s)')
    ylabel('Y Position (m)')
+   hold off
+   
+   figure(4)
+   hold on
+   plot(time,p_ot(3,:),'b')
+   plot(time,prevPts(3,:),'r')
+   title('Z Actual vs. Desired Position')
+   legend('Desired Pos.','Actual Pos.')
+   xlabel('Time (s)')
+   ylabel('Z Position (m)')
    hold off
     
 %end

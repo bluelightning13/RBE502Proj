@@ -37,17 +37,13 @@ Az = .25;
 delta_t = .0001; % 10000 Hz simulation time
 	
 % PD
-dx = Kxp*(desired(1) - actual(1)) + Kxd * ((p_pdp(1) - actual(1)) - p_pe(1)) %+ Kxd*(desired(4) - actual(4)) + Kxdd*(desired(7) - actual(7));
-dy = Kyp*(desired(2) - actual(2)) + Kyd * ((p_pdp(2) - actual(2)) - p_pe(2)) %+ Kyd*(desired(5) - actual(5)) + Kydd*(desired(8) - actual(8));
+dx = Kxp*(desired(1) - actual(1)) + Kxd * ((p_pdp(1) - actual(1)) - p_pe(1)); %+ Kxd*(desired(4) - actual(4)) + Kxdd*(desired(7) - actual(7));
+dy = Kyp*(desired(2) - actual(2)) + Kyd * ((p_pdp(2) - actual(2)) - p_pe(2)); %+ Kyd*(desired(5) - actual(5)) + Kydd*(desired(8) - actual(8));
 dz = Kzp*(desired(3) - actual(3)) + Kzd * ((p_pdp(3) - actual(3)) - p_pe(3)); %Kzd*(desired(6) - actual(6)) + Kzdd*(desired(9) - actual(9))
 
-Kyp*(desired(1) - actual(1));
-Kyd * ((p_pdp(1) - actual(1)) - p_pe(1))
-
 % new desired orientation and thrust
-phi = atan((dx * sin(psi) - dy * cos(psi)) / (dz + g))
-theta = atan((dx * cos(psi) - dy * sin(psi)) / (dz + g))
-actual(11);
+phi = atan2((dx * sin(psi) - dy * cos(psi)) , (dz + g));
+theta = atan2((dx * cos(psi) - dy * sin(psi)) , (dz + g));
 thrust = m * (dx * (sin(theta) *cos(psi) * cos(phi) + sin(psi) * sin(phi)) + dy*(sin(theta)*sin(psi) * cos(phi) - cos(psi) * sin(phi)) + (dz + g)*cos(theta)*cos(phi));
 	
 % accelerations on orientation
