@@ -74,7 +74,7 @@ o_pe(2) = (theta - actual(11));
 o_pe(3) = (psi - actual(12));
 p_pe(1) = (desired(1) - actual(1));
 p_pe(2) = (desired(2) - actual(2));
-p_pe(3) = (desired(3) - actual(3))
+p_pe(3) = (desired(3) - actual(3));
 
 % previous desired are current desired for next call of controller
 p_pdp = desired;
