@@ -39,7 +39,6 @@ function drawf(current, xr, yr, desired)
 	%for previous path store dots and plot 
 	plot3([cX desired(1)], [cY desired(2)], [cZ desired(3)], 'LineStyle', '-', 'Color', 'r')
     plot3([cX desired(1)], [cY desired(2)], [-2 desired(3)-2], 'LineStyle', '-', 'Color', 'r')
-
     
     plot3([cX cX+blade], [cY cY], [cZ cZ1u], 'Color', 'b');
 	plot3([cX cX], [cY cY-blade], [cZ cZ2u], 'Color', 'b');
