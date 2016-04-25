@@ -1,4 +1,4 @@
-function x = computeQuinticParameters(t0,tf,q0,v0,qf,vf)
+function x = computeCubicParameters(t0,tf,q0,v0,qf,vf)
 
 y = [q0, v0, qf, vf]';
 A =  [1 t0 t0^2 t0^3; ...
