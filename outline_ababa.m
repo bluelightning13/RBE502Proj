@@ -35,8 +35,8 @@
     p_ot = [];
     
     for i = 0 : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
+        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -49,7 +49,7 @@
         
         i
         
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
         p_ot = [p_ot, transpose(desired)];
@@ -60,8 +60,8 @@
     position_d_coeffs = transpose(computeCubicParameters(0,tf,5,0,0,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
+        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -74,7 +74,7 @@
         
         i
         
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
         p_ot = [p_ot, transpose(desired)];
@@ -83,8 +83,8 @@
     position_d_coeffs = transpose(computeCubicParameters(0,tf,0,0,5,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
+        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -97,7 +97,7 @@
         
         i
         
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
         p_ot = [p_ot, transpose(desired)];
@@ -108,8 +108,8 @@
     position_d_coeffs = transpose(computeCubicParameters(0,tf,5,0,0,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
+        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -122,7 +122,7 @@
         
         i
         
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
         p_ot = [p_ot, transpose(desired)];
@@ -131,8 +131,8 @@
      position_d_coeffs = transpose(computeCubicParameters(0,tf,0,0,5,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
+        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -145,7 +145,7 @@
         
         i
         
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
         p_ot = [p_ot, transpose(desired)];
@@ -156,8 +156,8 @@
     position_d_coeffs = transpose(computeCubicParameters(0,tf,5,0,0,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
-        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
+        desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
@@ -170,7 +170,7 @@
         
         i
         
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
         p_ot = [p_ot, transpose(desired)];
@@ -184,7 +184,7 @@
         
         i
         
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), [1 1 1]); %draw where we are now and where we should be
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
         p_ot = [p_ot, transpose(desired)];

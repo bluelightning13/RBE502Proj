@@ -35,8 +35,8 @@
     p_ot = [];
     
     for i = 0 : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
         desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
+        %desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3)
 
         %[desired(3),desired(6),desired(9)]
         %[actual(3),actual(6),actual(9)]
