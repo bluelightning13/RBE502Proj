@@ -2,7 +2,7 @@
 % control function using cubic polynominals
 % input is a set of points (should be and next points) and actual point
 % mcontrol is cubic 
-function [updated_actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp)
+function [updated_actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp,wind)
 %trajectory = cscvn(points)
 %t = 0:.1:1;
 
@@ -82,9 +82,9 @@ o_pdo = [phi theta psi];
 
 for i = 1 : 100
     % update accelerations
-    actual(7) = (thrust / m)*(cos(actual(12))*sin(actual(11))*cos(actual(10))+sin(actual(12))*sin(actual(10))) - (1/m)*actual(4)*Ax;
-    actual(8) = (thrust / m)*(sin(actual(12))*sin(actual(11))*cos(actual(10))-cos(actual(12))*sin(actual(10))) - (1/m)*actual(5)*Ay;
-    actual(9) = (thrust / m)*(cos(actual(11))*cos(actual(10))) - g - (1/m)*actual(6)*Az;
+    actual(7) = (thrust / m)*(cos(actual(12))*sin(actual(11))*cos(actual(10))+sin(actual(12))*sin(actual(10))) - (1/m)*(actual(4)-wind(1))*Ax;
+    actual(8) = (thrust / m)*(sin(actual(12))*sin(actual(11))*cos(actual(10))-cos(actual(12))*sin(actual(10))) - (1/m)*(actual(5)-wind(2))*Ay;
+    actual(9) = (thrust / m)*(cos(actual(11))*cos(actual(10))) - g - (1/m)*(actual(6)-wind(3))*Az;
     actual(16) = alpha_phi;
     actual(17) = alpha_theta;
     actual(18) = alpha_psi;

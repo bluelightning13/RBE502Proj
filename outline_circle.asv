@@ -39,7 +39,7 @@
     p_ot = [];
     
     % wind velocity vector
-    wind = [3.89;3.89;0]; % magnitude of 5.5m/s is average windspeed
+    wind = [0;0;0]; % magnitude of 5.5m/s is average windspeed
     
     % set up video:
     %nframes = 1500
@@ -75,8 +75,8 @@
     
     %pause
     
-    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,2.5,1.5,5,0)); % 5 units in 10 seconds
-    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,0,0,2.5,1.5)); % 5 units in 10 seconds
+    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,2.5,1.5,5,0)) % 5 units in 10 seconds
+    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,0,0,2.5,1.5)) % 5 units in 10 seconds
 
     
     for i = delta_t : delta_t : tf % 5 second trajectory
@@ -103,8 +103,8 @@
         p_ot = [p_ot, transpose(desired)];
     end
     
-    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,5,0,2.5,-1.5)); % 5 units in 10 seconds
-    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,2.5,1.5,5,0)); % 5 units in 10 seconds
+    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,5,0,2.5,-1.5)) % 5 units in 10 seconds
+    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,2.5,1.5,5,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
         desired(1) = position_d_coeffs_x(1) + position_d_coeffs_x(2)*i + position_d_coeffs_x(3)*(i^2) + position_d_coeffs_x(4)*(i^3);
@@ -115,62 +115,6 @@
         %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
         %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
 
-        error = [error, [desired(1) - actual(1); desired(2) - actual(2); desired(3) - actual(3)]];
-        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp,wind);
-        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
-        l_do = [l_do, transpose(o_pdo)];
-        
-        i
-        
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
-        %pause
-        
-        %writeVideo(vidObj, getframe);
-        
-        p_ot = [p_ot, transpose(desired)];
-    end
-    
-    %pause
-    
-    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,2.5,-1.5,0,0)); % 5 units in 10 seconds
-    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,5,0,2.5,-1.5)); % 5 units in 10 seconds
-    
-    for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs_x(1) + position_d_coeffs_x(2)*i + position_d_coeffs_x(3)*(i^2) + position_d_coeffs_x(4)*(i^3);
-        desired(2) = position_d_coeffs_y(1) + position_d_coeffs_y(2)*i + position_d_coeffs_y(3)*(i^2) + position_d_coeffs_y(4)*(i^3);
-
-        %[desired(3),desired(6),desired(9)]
-        %[actual(3),actual(6),actual(9)]
-        %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
-        %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
-        
-        error = [error, [desired(1) - actual(1); desired(2) - actual(2); desired(3) - actual(3)]];
-        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp,wind);
-        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
-        l_do = [l_do, transpose(o_pdo)];
-        
-        i
-        
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
-        %pause
-        
-        %writeVideo(vidObj, getframe);
-        
-        p_ot = [p_ot, transpose(desired)];
-    end
-    
-    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,0,0,2.5,1.5)); % 5 units in 10 seconds
-    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,2.5,-1.5,0,0)); % 5 units in 10 seconds
-    
-    for i = delta_t : delta_t : tf % 5 second trajectory
-        desired(1) = position_d_coeffs_x(1) + position_d_coeffs_x(2)*i + position_d_coeffs_x(3)*(i^2) + position_d_coeffs_x(4)*(i^3);
-        desired(2) = position_d_coeffs_y(1) + position_d_coeffs_y(2)*i + position_d_coeffs_y(3)*(i^2) + position_d_coeffs_y(4)*(i^3);
-
-        %[desired(3),desired(6),desired(9)]
-        %[actual(3),actual(6),actual(9)]
-        %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
-        %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
-        
         error = [error, [desired(1) - actual(1); desired(2) - actual(2); desired(3) - actual(3)]];
         [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp,wind);
         prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
@@ -188,7 +132,63 @@
     
     %pause
     
-    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,2.5,1.5,5,0)); % 5 units in 10 seconds
+    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,2.5,-1.5,0,0)) % 5 units in 10 seconds
+    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,5,0,2.5,-1.5)) % 5 units in 10 seconds
+    
+    for i = delta_t : delta_t : tf % 5 second trajectory
+        desired(1) = position_d_coeffs_x(1) + position_d_coeffs_x(2)*i + position_d_coeffs_x(3)*(i^2) + position_d_coeffs_x(4)*(i^3);
+        desired(2) = position_d_coeffs_y(1) + position_d_coeffs_y(2)*i + position_d_coeffs_y(3)*(i^2) + position_d_coeffs_y(4)*(i^3);
+
+        %[desired(3),desired(6),desired(9)]
+        %[actual(3),actual(6),actual(9)]
+        %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
+        %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
+        
+        error = [error, [desired(1) - actual(1); desired(2) - actual(2); desired(3) - actual(3)]];
+        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp,wind);
+        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
+        l_do = [l_do, transpose(o_pdo)];
+        
+        i
+        
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
+        %pause
+        
+        %writeVideo(vidObj, getframe);
+        
+        p_ot = [p_ot, transpose(desired)];
+    end
+    
+    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,0,0,2.5,1.5)) % 5 units in 10 seconds
+    position_d_coeffs_y = transpose(computeCubicParameters(0,tf,2.5,-1.5,0,0)) % 5 units in 10 seconds
+    
+    for i = delta_t : delta_t : tf % 5 second trajectory
+        desired(1) = position_d_coeffs_x(1) + position_d_coeffs_x(2)*i + position_d_coeffs_x(3)*(i^2) + position_d_coeffs_x(4)*(i^3);
+        desired(2) = position_d_coeffs_y(1) + position_d_coeffs_y(2)*i + position_d_coeffs_y(3)*(i^2) + position_d_coeffs_y(4)*(i^3);
+
+        %[desired(3),desired(6),desired(9)]
+        %[actual(3),actual(6),actual(9)]
+        %desired(6) = velocity_d_coeffs(1) + velocity_d_coeffs(2)*i + velocity_d_coeffs(3)*(i^2) + velocity_d_coeffs(4)*(i^3);
+        %desired(9) = acceleration_d_coeffs(1) + acceleration_d_coeffs(2)*i + acceleration_d_coeffs(3)*(i^2) + acceleration_d_coeffs(4)*(i^3);
+        
+        error = [error, [desired(1) - actual(1); desired(2) - actual(2); desired(3) - actual(3)]];
+        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp,wind);
+        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
+        l_do = [l_do, transpose(o_pdo)];
+        
+        i
+        
+        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
+        %pause
+        
+        %writeVideo(vidObj, getframe);
+        
+        p_ot = [p_ot, transpose(desired)];
+    end
+    
+    %pause
+    
+    position_d_coeffs_x = transpose(computeCubicParameters(0,tf,2.5,1.5,5,0)) % 5 units in 10 seconds
     
     for i = delta_t : delta_t : tf % 5 second trajectory
         desired(1) = position_d_coeffs_x(1) + position_d_coeffs_x(2)*i + position_d_coeffs_x(3)*(i^2) + position_d_coeffs_x(4)*(i^3);
@@ -324,8 +324,7 @@
    ylabel('Z Position Error (m)')
    hold off
    
-   % print average errors
-   avg_errors = sum(abs(transpose(error)))/1501
+   
   
    % 3d plot code for later:
 %    figure()
