@@ -1,6 +1,9 @@
 % main function where everything runs
 %function outline()
     %main function 
+    
+    warning('off','all')
+    
     points=[0 0 0 ; 0 1 0];
     cubicPoly = (cscvn(points))
     fnplt(cubicPoly)
@@ -10,7 +13,7 @@
     tf = 2.5;
     position_d_coeffs_x = transpose(computeCubicParameters(0,tf,0,0,2.5,1.5)) % 5 units in 10 seconds
     %pause
-    velocity_d_coeffs = [0 position_d_coeffs(2)*1 position_d_coeffs(3)*2 position_d_coeffs(4)*3]
+    %velocity_d_coeffs = [0 position_d_coeffs(2)*1 position_d_coeffs(3)*2 position_d_coeffs(4)*3]
     %acceleration_d_coeffs = [0 0 velocity_d_coeffs(3)*1 velocity_d_coeffs(4)*2];
     
     actual = zeros(1,18); %initial state of robot
@@ -34,6 +37,15 @@
     
     p_ot = [];
     
+    
+    % set up video:
+    %nframes = 1500
+    %vidObj = VideoWriter('QuadSimVideo.avi');
+    %vidObj.Quality = 100;
+    %vidObj.FrameRate = 30;
+    %open(vidObj);
+    
+    
     for i = 0 : delta_t : tf % 5 second trajectory
         desired(1) = position_d_coeffs_x(1) + position_d_coeffs_x(2)*i + position_d_coeffs_x(3)*(i^2) + position_d_coeffs_x(4)*(i^3);
         %desired(2) = position_d_coeffs(1) + position_d_coeffs(2)*i + position_d_coeffs(3)*(i^2) + position_d_coeffs(4)*(i^3);
@@ -51,6 +63,8 @@
         
         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
+        
+        %writeVideo(vidObj, getframe);
         
         p_ot = [p_ot, transpose(desired)];
     end
@@ -79,6 +93,8 @@
         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
+        %writeVideo(vidObj, getframe);
+        
         p_ot = [p_ot, transpose(desired)];
     end
     
@@ -102,6 +118,8 @@
         
         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
+        
+        %writeVideo(vidObj, getframe);
         
         p_ot = [p_ot, transpose(desired)];
     end
@@ -129,6 +147,8 @@
         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
         
+        %writeVideo(vidObj, getframe);
+        
         p_ot = [p_ot, transpose(desired)];
     end
     
@@ -152,6 +172,8 @@
         
         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
+        
+        %writeVideo(vidObj, getframe);
         
         p_ot = [p_ot, transpose(desired)];
     end
@@ -177,25 +199,27 @@
         
         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
         %pause
-        
+        %writeVideo(vidObj, getframe);
         p_ot = [p_ot, transpose(desired)];
     end
   
-    % converge to final position
-    for i = delta_t : delta_t : 10 % 10 second trajectory to stabilize
-        [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp);
-        prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
-        l_do = [l_do, transpose(o_pdo)];
-        
-        i
-        
-        drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
-        %pause
-        
-        p_ot = [p_ot, transpose(desired)];
-    end
+    close(vidObj);
     
-   time = linspace(0,(6*tf+10),(((6*tf+10)/delta_t)+1));
+    % converge to final position
+%     for i = delta_t : delta_t : 10 % 10 second trajectory to stabilize
+%         [actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp);
+%         prevPts = [prevPts, [actual(1); actual(2); actual(3); actual(10); actual(11); actual(12)]];
+%         l_do = [l_do, transpose(o_pdo)];
+%         
+%         i
+%         
+%         drawf([real(actual(1)),real(actual(2)),real(actual(3))], real(actual(10)), real(actual(11)), desired); %draw where we are now and where we should be
+%         %pause
+%         
+%         p_ot = [p_ot, transpose(desired)];
+%     end
+    
+   time = linspace(0,(6*tf),(((6*tf)/delta_t)+1));
    
    figure(2)
    hold on
