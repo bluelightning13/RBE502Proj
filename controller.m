@@ -3,8 +3,7 @@
 % input is a set of points (should be and next points) and actual point
 % mcontrol is cubic 
 function [updated_actual,o_pe,o_pdo,p_pe,p_pdp] = controller(desired,actual,o_pe,o_pdo,p_pe,p_pdp,wind)
-%trajectory = cscvn(points)
-%t = 0:.1:1;
+
 
 psi = 0;
 
@@ -64,9 +63,6 @@ w22 = (thrust / 4*k) - (t_phi / 2*k*l) + (t_psi / 4 * b);
 w32 = (thrust / 4*k) + (t_theta / 2*k*l) - (t_psi / 4 * b);
 w42 = (thrust / 4*k) + (t_phi / 2*k*l) + (t_psi / 4 * b);
 
-%DON - integration
-% actual is [x y z xd yd zd xdd ydd zdd phi theta psi phid thetad
-% psid phidd thetadd psidd]
 
 % previous errors are current errors for next call of controller
 o_pe(1) = (phi - actual(10));
